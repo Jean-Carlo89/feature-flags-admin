@@ -5,7 +5,7 @@ export interface IRepository<E> {
   delete(entity_id: string): Promise<void>;
 
   find(entity_id: string): Promise<E | null>;
-  findAll(): Promise<E[]>;
+  findAll(per_page?: number, index?: number): Promise<E[]>;
 
   getEntity(): new (...args: any[]) => E;
 }

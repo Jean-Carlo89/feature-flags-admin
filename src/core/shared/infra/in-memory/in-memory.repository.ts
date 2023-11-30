@@ -19,8 +19,12 @@ export abstract class InMemoryRepository<E extends BaseEntity>
     const _id = `${id}`;
     return await this._get(_id);
   }
-  async findAll(): Promise<E[]> {
-    return this.items;
+  async findAll(per_page: number = 20, index?: number): Promise<E[]> {
+    const startIndex = typeof index === 'number' ? index : 0;
+
+    const endIndex = startIndex + per_page;
+
+    return this.items.slice(startIndex, endIndex);
   }
   async update(entity: E): Promise<void> {
     await this._get(entity.id);
