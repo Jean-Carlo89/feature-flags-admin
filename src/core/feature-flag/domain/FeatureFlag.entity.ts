@@ -1,9 +1,8 @@
 import { BaseEntity } from '../../shared/domain/base-entity';
 import { Uuid } from '../../shared/domain/uuid';
+import { FeatureFlagFakeFactory } from './FeatureFlagFakeFactory';
 
 import { FeatureFlagValidatorFactory } from './feature-flag.validator';
-
-console.log('online');
 
 export type FeatureFlagProps = {
   id?: string;
@@ -19,7 +18,7 @@ export class FeatureFlag extends BaseEntity {
   is_active: boolean;
 
   constructor(props: FeatureFlagProps) {
-    super();
+    super({ ...props });
 
     this.name = props.name;
     this.description = props.description ?? null;
@@ -32,6 +31,10 @@ export class FeatureFlag extends BaseEntity {
     const feature_flag = new FeatureFlag(props);
 
     return feature_flag;
+  }
+
+  static fake(props?: FeatureFlagProps) {
+    return FeatureFlagFakeFactory.Fake(props);
   }
 
   validate() {

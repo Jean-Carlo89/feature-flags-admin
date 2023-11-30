@@ -71,9 +71,6 @@ describe('In Memory Repository unit tests', () => {
   it('Should throw error when entity not found', async () => {
     const x = new NotFoundError('fake id', StubEntity);
 
-    console.log(x.message);
-
-    console.log(fake_repo.items);
     await expect(async () => {
       const result = await fake_repo.find('fake id');
 
