@@ -1,4 +1,4 @@
-import { FeatureFlagInMemoryRepository } from '../../../../feature-flag/infra/in-memory/flag-in-memory.repository';
+import { FeatureFlagInMemoryRepository } from '../../../infra/in-memory/flag-in-memory.repository';
 import {
   CreateFeatureFlagUseCase,
   CreateFlagInput,
@@ -17,7 +17,7 @@ describe('CreateFeatureFlagUseCase Unit tests', () => {
     date = new Date();
   });
 
-  it('Should create a category', async () => {
+  it('Should create a flag', async () => {
     const spyInsert = jest.spyOn(repository, 'insert');
 
     let input: CreateFlagInput = {

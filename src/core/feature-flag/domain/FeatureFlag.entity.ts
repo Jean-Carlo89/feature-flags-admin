@@ -16,7 +16,6 @@ export class FeatureFlag extends BaseEntity {
   name: string;
   description: string | null;
   is_active: boolean;
-  category_id: any;
 
   constructor(props: FeatureFlagProps) {
     super({ ...props });
