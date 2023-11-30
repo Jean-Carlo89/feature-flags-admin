@@ -1,3 +1,4 @@
+import { NotFoundError } from '../../../shared/domain/errors/NotFoundError';
 import { FeatureFlag } from '../../../feature-flag/domain/FeatureFlag.entity';
 import { IFeatureFlagRepository } from '../../../feature-flag/domain/FeatureFlag.repository';
 import { IUseCase } from '../../../shared/application/use-case.interface';
@@ -28,6 +29,10 @@ export class GetFeatureFlagUseCase
     const id = input.id;
 
     const result = await this.FeatureFlagRepository.find(id);
+
+    if (!result) {
+      throw new NotFoundError(input.id, FeatureFlag);
+    }
 
     return {
       id: result.id,

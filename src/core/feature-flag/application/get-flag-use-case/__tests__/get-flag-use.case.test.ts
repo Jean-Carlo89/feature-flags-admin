@@ -19,6 +19,14 @@ describe('GetFeatureFlagUseCase Unit tests', () => {
     date = new Date();
   });
 
+  it('should throws error when entity not found', async () => {
+    try {
+      await useCase.execute({ id: 'fake id', name: 'fake' } as any);
+    } catch (e) {
+      expect(e.message).toBe('FeatureFlag Not Found using ID fake id');
+    }
+  });
+
   it('Should find a feature flag', async () => {
     const spyGet = jest.spyOn(repository, 'find');
 

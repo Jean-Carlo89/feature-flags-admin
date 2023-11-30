@@ -47,8 +47,8 @@ export abstract class InMemoryRepository<E extends BaseEntity>
     );
 
     if (!item) {
-      throw new NotFoundError(_id, this.getEntity());
-      //return null;
+      //throw new NotFoundError(_id, this.getEntity());
+      return null;
     }
 
     return item;
