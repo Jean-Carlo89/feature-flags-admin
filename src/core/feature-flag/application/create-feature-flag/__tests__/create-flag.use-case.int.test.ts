@@ -6,8 +6,8 @@ import {
 } from '../../../../shared/infra/mongo/config';
 import { MongoClient } from 'mongodb';
 import { FeatureFlag } from '../../../../feature-flag/domain/FeatureFlag.entity';
-import { setupMongo } from '@core/feature-flag/infra/testing/helper';
-import { IFeatureFlagRepository } from '@core/feature-flag/domain/FeatureFlag.repository';
+import { setupMongo } from '../../../../feature-flag/infra/testing/helper';
+import { IFeatureFlagRepository } from '../../../../feature-flag/domain/FeatureFlag.repository';
 
 setupMongo();
 

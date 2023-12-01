@@ -1,7 +1,7 @@
-import { IFeatureFlagRepository } from '@core/feature-flag/domain/FeatureFlag.repository';
+import { IFeatureFlagRepository } from '../../../feature-flag/domain/FeatureFlag.repository';
 import { IRepository } from '../../../shared/infra/in-memory/repository-interface';
-import { FeatureFlag } from '@core/feature-flag/domain/FeatureFlag.entity';
-import { MongoRepository } from '@core/shared/infra/mongo/mongo.repository';
+import { FeatureFlag } from '../../../feature-flag/domain/FeatureFlag.entity';
+import { MongoRepository } from '../../../shared/infra/mongo/mongo.repository';
 import { FeatureFlagModelMapper } from './feature-flag-model-mapper';
 import { FeatureFlagModel } from './feature-flag.model';
 

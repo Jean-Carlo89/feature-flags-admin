@@ -1,6 +1,6 @@
-import { FeatureFlag } from '@core/feature-flag/domain/FeatureFlag.entity';
-import { IFeatureFlagRepository } from '@core/feature-flag/domain/FeatureFlag.repository';
-import { IUseCase } from '@core/shared/application/use-case.interface';
+import { FeatureFlag } from '../../../feature-flag/domain/FeatureFlag.entity';
+import { IFeatureFlagRepository } from '../../../feature-flag/domain/FeatureFlag.repository';
+import { IUseCase } from '../../../shared/application/use-case.interface';
 
 export type ListFeatureFlagInput = { per_page?: number; index?: number };
 

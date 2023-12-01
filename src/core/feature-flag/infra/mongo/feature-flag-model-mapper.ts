@@ -1,4 +1,4 @@
-import { FeatureFlag } from '@core/feature-flag/domain/FeatureFlag.entity';
+import { FeatureFlag } from '../../../feature-flag/domain/FeatureFlag.entity';
 import { FeatureFlagModel } from './feature-flag.model';
 export class FeatureFlagModelMapper {
   static toModel(entity: FeatureFlag): Omit<FeatureFlagModel, '_id'> {

@@ -20,9 +20,9 @@ export class FeatureFlag extends BaseEntity {
   constructor(props: FeatureFlagProps) {
     super({ ...props });
 
-    this.name = props.name;
-    this.description = props.description ?? null;
-    this.is_active = props.is_active;
+    this.name = props?.name;
+    this.description = props?.description ?? null;
+    this.is_active = props?.is_active ?? true;
 
     this.validate();
   }
