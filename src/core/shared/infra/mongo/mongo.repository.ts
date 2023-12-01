@@ -1,4 +1,4 @@
-import { MongoClient, WithId } from 'mongodb';
+import { MongoClient, WithId, Document } from 'mongodb';
 import { Db, GridFSBucket, ObjectId } from 'mongodb';
 import { get_connection } from './config';
 
@@ -48,7 +48,7 @@ abstract class MongoRepository {
     }
   }
 
-  public async update_by_id(
+  protected async update_by_id(
     collection_name: string,
     id: string,
     fields: object,
@@ -69,7 +69,41 @@ abstract class MongoRepository {
     }
   }
 
-  public async find_single_by_id(collectionName: string, id: string) {
+  protected async find_all(
+    collection_name: string,
+
+    startIndex: number = 0,
+    numberOfDocuments: number = 0,
+  ): Promise<Document[]> {
+    try {
+      const pipeline = [{ $skip: startIndex }, { $limit: numberOfDocuments }];
+
+      const collection = this.mdb_client
+        .db(this.mdb_name)
+        .collection(collection_name);
+      const result = await collection.aggregate(pipeline).toArray();
+
+      return result;
+    } catch (e) {
+      console.error(e);
+      throw new Error(`An error occurred getting all documents`);
+    }
+  }
+
+  protected async insert_many(collection_name: string, documents: object[]) {
+    try {
+      const result = await this.mdb_client
+        .db(this.mdb_name)
+        .collection(collection_name)
+        .insertMany(documents);
+      return result;
+    } catch (e) {
+      console.error(e);
+      throw new Error('Error inserting documents');
+    }
+  }
+
+  protected async find_single_by_id(collectionName: string, id: string) {
     const result = await this.mdb_client
       .db(this.mdb_name)
       .collection(collectionName)

@@ -23,8 +23,13 @@ export class FeatureFlagMongoRepository
     const model_props = FeatureFlagModelMapper.toModel(entity);
     await super.insert_single(this.collection_name, model_props);
   }
-  insertMany(entities: FeatureFlag[]): Promise<void> {
-    throw new Error('Method not implemented.');
+
+  async insertMany(entities: FeatureFlag[]): Promise<void> {
+    const models = entities.map((e) => {
+      return FeatureFlagModelMapper.toModel(e);
+    });
+
+    await super.insert_many(this._collection_name, models);
   }
   public async update(entity: FeatureFlag): Promise<void> {
     const updated_data = FeatureFlagModelMapper.toModel(entity);
@@ -54,8 +59,14 @@ export class FeatureFlagMongoRepository
       ? FeatureFlagModelMapper.toEntity(result as FeatureFlagModel)
       : null;
   }
-  findAll(per_page?: number, index?: number): Promise<FeatureFlag[]> {
-    throw new Error('Method not implemented.');
+  async findAll(per_page: number = 20, index?: number): Promise<FeatureFlag[]> {
+    const models = await super.find_all(this.collection_name, index, per_page);
+
+    const entities = models.map((model) => {
+      return FeatureFlagModelMapper.toEntity(model as FeatureFlagModel);
+    });
+
+    return entities;
   }
   getEntity(): new (...args: any[]) => FeatureFlag {
     return FeatureFlag;
