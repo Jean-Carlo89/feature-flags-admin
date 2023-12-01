@@ -7,27 +7,14 @@ import {
 import { MongoClient } from 'mongodb';
 import { FeatureFlag } from '../../../../feature-flag/domain/FeatureFlag.entity';
 import { setupMongo } from '@core/feature-flag/infra/testing/helper';
+import { IFeatureFlagRepository } from '@core/feature-flag/domain/FeatureFlag.repository';
 
 setupMongo();
-
-//let connection: MongoClient;
-// beforeAll(async () => {
-//   connection = await connect_to_mongoDb('mongodb://localhost:27027');
-// });
-
-// beforeEach(async () => {
-//   await connection.db('DevDB').dropDatabase();
-// });
-
-// afterAll(async () => {
-//   //await connection.db("IsicDevLocalTesting").dropDatabase();
-//   await close_connection(connection);
-// });
 
 describe('Create FeatureFlag Use Case Integration tests', () => {
   let useCase: CreateFeatureFlagUseCase;
 
-  let repository: FeatureFlagMongoRepository;
+  let repository: IFeatureFlagRepository;
 
   beforeEach(() => {
     repository = new FeatureFlagMongoRepository();

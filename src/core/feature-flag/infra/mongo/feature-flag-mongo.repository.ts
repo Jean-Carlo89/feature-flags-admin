@@ -3,6 +3,7 @@ import { IRepository } from '../../../shared/infra/in-memory/repository-interfac
 import { FeatureFlag } from '@core/feature-flag/domain/FeatureFlag.entity';
 import { MongoRepository } from '@core/shared/infra/mongo/mongo.repository';
 import { FeatureFlagModelMapper } from './feature-flag-model-mapper';
+import { FeatureFlagModel } from './feature-flag.model';
 
 export class FeatureFlagMongoRepository
   extends MongoRepository
@@ -25,19 +26,38 @@ export class FeatureFlagMongoRepository
   insertMany(entities: FeatureFlag[]): Promise<void> {
     throw new Error('Method not implemented.');
   }
-  update(entity: FeatureFlag): Promise<void> {
-    throw new Error('Method not implemented.');
+  public async update(entity: FeatureFlag): Promise<void> {
+    const updated_data = FeatureFlagModelMapper.toModel(entity);
+
+    const fields = {
+      $set: updated_data,
+    };
+
+    const result = await super.update_by_id(
+      this._collection_name,
+      entity.id,
+      fields,
+    );
   }
-  delete(entity_id: string): Promise<void> {
-    throw new Error('Method not implemented.');
+  async delete(entity_id: string): Promise<void> {
+    const response = await super.delete_by_id(this._collection_name, entity_id);
   }
-  find(entity_id: string): Promise<FeatureFlag> {
-    throw new Error('Method not implemented.');
+  async find(entity_id: string): Promise<FeatureFlag> {
+    const projection = {};
+
+    const result = await super.find_single_by_id(
+      this._collection_name,
+      entity_id,
+    );
+
+    return result
+      ? FeatureFlagModelMapper.toEntity(result as FeatureFlagModel)
+      : null;
   }
   findAll(per_page?: number, index?: number): Promise<FeatureFlag[]> {
     throw new Error('Method not implemented.');
   }
   getEntity(): new (...args: any[]) => FeatureFlag {
-    throw new Error('Method not implemented.');
+    return FeatureFlag;
   }
 }

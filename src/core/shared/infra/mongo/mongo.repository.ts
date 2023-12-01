@@ -34,7 +34,7 @@ abstract class MongoRepository {
     this.mdb_name = process.env.MDB_DB;
   }
 
-  async insert_single(collection_name: string, document: Object) {
+  protected async insert_single(collection_name: string, document: Object) {
     try {
       const result = await this.mdb_client
         .db(this.mdb_name)
@@ -44,6 +44,50 @@ abstract class MongoRepository {
       return result;
     } catch (error) {
       console.error(error);
+      throw new Error(error);
+    }
+  }
+
+  public async update_by_id(
+    collection_name: string,
+    id: string,
+    fields: object,
+  ) {
+    try {
+      const filter = { id: id };
+
+      const result = await this.mdb_client
+        .db(this.mdb_name)
+        .collection(collection_name)
+        .updateOne(filter, fields);
+
+      return result;
+    } catch (e) {
+      console.error(e);
+      throw new Error('Error updating fields');
+    } finally {
+    }
+  }
+
+  public async find_single_by_id(collectionName: string, id: string) {
+    const result = await this.mdb_client
+      .db(this.mdb_name)
+      .collection(collectionName)
+      .findOne({ id });
+
+    return result;
+  }
+  protected async delete_by_id(collection: string, id: string) {
+    try {
+      if (id) {
+        await this.mdb_client
+          .db(process.env.MDB_DB)
+          .collection(collection)
+          .deleteOne({ id: id });
+      } else {
+        return Delete_Error.INVALID_ID;
+      }
+    } catch (error) {
       throw new Error(error);
     }
   }

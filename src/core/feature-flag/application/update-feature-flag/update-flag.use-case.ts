@@ -4,11 +4,11 @@ import { IFeatureFlagRepository } from '../../../feature-flag/domain/FeatureFlag
 import { IUseCase } from '../../../shared/application/use-case.interface';
 
 export type UpdateFlagInput = {
-  id?: string;
-  name: string;
+  id: string;
+  name?: string;
   description?: string;
   created_at?: Date;
-  is_active: boolean;
+  is_active?: boolean;
   updated_at?: Date;
 };
 
@@ -46,12 +46,15 @@ export class UpdateFeatureFlagUseCase
       flag.change_description(input.description);
     }
 
-    if (input.is_active === true) {
-      flag.activate();
-    }
+    //*** Description can be null */
+    if ('is_active' in input) {
+      if (input.is_active === true) {
+        flag.activate();
+      }
 
-    if (input.is_active === false) {
-      flag.deactivate();
+      if (input.is_active === false) {
+        flag.deactivate();
+      }
     }
 
     flag.updated_at = new Date();

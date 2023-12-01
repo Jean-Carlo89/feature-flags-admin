@@ -1,9 +1,11 @@
-import { IFeatureFlagRepository } from '@core/feature-flag/domain/FeatureFlag.repository';
+import { FeatureFlag } from '../../../feature-flag/domain/FeatureFlag.entity';
+import { IFeatureFlagRepository } from '../../../feature-flag/domain/FeatureFlag.repository';
+import { NotFoundError } from '../../../shared/domain/errors/NotFoundError';
 
 export class DeleteFeatureFlagUseCase {
   private FeatureFlagRepository: IFeatureFlagRepository;
 
-  constructor(private FeatureFlagRepo: IFeatureFlagRepository) {
+  constructor(FeatureFlagRepo: IFeatureFlagRepository) {
     this.FeatureFlagRepository = FeatureFlagRepo;
   }
 
@@ -11,6 +13,12 @@ export class DeleteFeatureFlagUseCase {
     input: DeleteFeatureFlagInput,
   ): Promise<DeleteFeatureFlagOutput> {
     const id = input.id;
+
+    const flag = await this.FeatureFlagRepository.find(id);
+
+    if (!flag) {
+      throw new NotFoundError(id, FeatureFlag);
+    }
 
     await this.FeatureFlagRepository.delete(id);
   }

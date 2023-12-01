@@ -9,8 +9,7 @@ describe('Feature Flag unit tests', () => {
           input: {},
 
           expected: {
-            error_message:
-              'name: Name is required; is_active: is_active is a required field;',
+            error_message: 'name: Name is required;',
           },
         },
 
