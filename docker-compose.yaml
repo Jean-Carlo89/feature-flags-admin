@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  app-server:
+    build: ./backend
+
+    ports:
+      - 8002:8002
+      - 8001:8001
+    volumes:
+      - ./backend:/home/node/app
+  app-db:
+    image: mongo:6.0.2
+    ports:
+      - 27027:27017
+        # environment:
+    #     - MONGO_INITDB_ROOT_USERNAME=ROOT
+    #     - MONGO_INITDB_ROOT_PASSWORD=ROOT
