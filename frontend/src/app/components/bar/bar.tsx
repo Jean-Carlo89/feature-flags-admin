@@ -26,7 +26,7 @@ export default function bar({ children }: BarProps) {
         <MenuLink children={<RxDashboard size={25} />} href={"/dashboard/flags"} className={"text-black bg-gray-100 hover:bg-gray-300 cursor-pointer my-4 p-3 rounded-lg inline-block"} />
       </div>
 
-      <div className=" ml-[5px]  rounded-full z-20 bg-slate-500 w-[50px] h-[50px] bg-rounded">
+      <div className=" ml-[15px] mb-[5px] rounded-full z-20 bg-slate-500 w-[50px] h-[50px] bg-rounded">
         <FaUserCircle size={50} />
       </div>
     </div>
