@@ -13,7 +13,7 @@ const Layout = ({ children }: DashboardLayoutProps) => {
             <Bar>children</Bar>
           </div>
 
-          <div className="flex-grow border-green-600 border-4 flex flex-col">{children}</div>
+          <div className="flex-grow border-green-600 bg-[#F1F2F5] border-4 flex ">{children}</div>
         </div>
       </div>
     </main>
