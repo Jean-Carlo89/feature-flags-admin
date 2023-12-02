@@ -13,8 +13,7 @@ type BarProps = {
 
 export default function bar({ children }: BarProps) {
   return (
-    // <div className="flex flex-col border-4 border-green-100 h-full">
-    <div className="w-20 h-full  bg-white border-r-[1px] flex flex-col justify-between border-4 border-green-100">
+    <div className="w-20 h-full container bg-slate-300 border-r-[1px] flex flex-col justify-between  ">
       <div className=" flex flex-col z-10 items-center    ">
         <Link href="/">
           <div className=" bg-orange-400 mt-[5px] text-black p-3 rounded-lg inline-block">
@@ -31,8 +30,5 @@ export default function bar({ children }: BarProps) {
         <FaUserCircle size={50} />
       </div>
     </div>
-
-    //
-    // </div>
   );
 }

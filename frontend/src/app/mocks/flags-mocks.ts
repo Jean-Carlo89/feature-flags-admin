@@ -1,4 +1,4 @@
-import { FeatureFlag } from "../dashboard/flags/flag";
+import { FeatureFlag } from "../@types/flag";
 
 const flag: FeatureFlag = {
   id: "1",
