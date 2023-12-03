@@ -26,6 +26,10 @@ export async function getFeatureFlag(props: getFeatureFlagRequestParams): Promis
   return await (await fetch(`${feature_flag_api}/${props.id}`, { headers: props.headers })).json();
 }
 
+export async function deleteFeatureFlag(props: getFeatureFlagRequestParams): Promise<FeatureFlag> {
+  return await (await fetch(`${feature_flag_api}/${props.id}`, { method: "DELETE", headers: props.headers })).json();
+}
+
 export async function updateFeatureFlag(props: updateFeatureFlagRequestParams): Promise<void> {
   console.log("herefff");
 

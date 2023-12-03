@@ -1,4 +1,4 @@
-import { getFeatureFlag, updateFeatureFlag } from "@/app/services/feature-flags/FetureFlagApi";
+import { deleteFeatureFlag, getFeatureFlag, updateFeatureFlag } from "@/app/services/feature-flags/FetureFlagApi";
 import { NextResponse } from "next/server";
 
 export const PATCH = async (req: Request, res: Response) => {
@@ -24,4 +24,16 @@ export const GET = async (req: Request, res: Response) => {
   console.log("reqeusting2222222");
 
   return NextResponse.json(flag);
+};
+
+export const DELETE = async (req: Request, res: Response) => {
+  console.log("in delete by id");
+
+  const id = req.url.split("flags/")[1];
+
+  console.log("deelteting");
+  const flag = await deleteFeatureFlag({ id });
+  console.log("deelteting2222222");
+
+  return;
 };
