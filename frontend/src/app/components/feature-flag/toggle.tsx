@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { updateFeatureFlag } from "../../services/feature-flags/FetureFlagApi";
+import { current_api } from "@/app/services/api/helper";
 
 type FeatureFlagProps = {
   id: string;
@@ -10,29 +11,31 @@ type FeatureFlagProps = {
 };
 
 const FeatureFlagToggle = (props: FeatureFlagProps) => {
-  const [isActive, setIsActive] = useState(props.is_active);
+  const [is_active, setIsActive] = useState(props.is_active);
 
   const toggleStatus = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
 
-    console.log("here");
+    // await updateFeatureFlag({
+    //   id: props.id,
+    //   body: {
+    //     is_active: !is_active,
+    //   },
+    // });
+    const feature_flag_api = `${current_api}/feature-flags`;
+
     try {
-      console.log("here");
-      await updateFeatureFlag({
-        id: props.id,
-        body: {
-          is_active: !isActive,
-        },
-        headers: {
-          "Content-Type": "application/json",
-        },
+      await fetch(`${feature_flag_api}/${props.id}`, {
+        method: "PATCH",
+
+        body: JSON.stringify({ is_active: !is_active }),
       });
+
+      setIsActive(!is_active);
     } catch (error) {
-      //alert("Erro Atualizando o estado da flag");
-      return;
+      alert("Erro atualziando");
     }
-    setIsActive(!isActive);
   };
 
   return (
@@ -43,7 +46,7 @@ const FeatureFlagToggle = (props: FeatureFlagProps) => {
       </Link> */}
 
       <div onClick={toggleStatus} className="w-20 h-10 bg-gray-200 rounded-full flex items-center cursor-pointer relative">
-        <div className={`absolute top-0 bottom-0 w-10 h-10 rounded-full transition-all duration-1000 ease-in-out ${isActive ? "bg-green-500 right-0" : "bg-red-500 left-0"}`}></div>
+        <div className={`absolute top-0 bottom-0 w-10 h-10 rounded-full transition-all duration-1000 ease-in-out ${is_active ? "bg-green-500 right-0" : "bg-red-500 left-0"}`}></div>
       </div>
     </Link>
   );

@@ -1,7 +1,7 @@
 import FeatureFlagToggle from "@/app/components/feature-flag/toggle";
 
 import { EXPRESS_API_URI } from "../../services/api/helper";
-import { FeatureFlag } from "../../@types/flag";
+import { FeatureFlag } from "./flag";
 import { getFeatureFlags } from "@/app/services/feature-flags/FetureFlagApi";
 
 export default async function FeatureFlagsPage() {

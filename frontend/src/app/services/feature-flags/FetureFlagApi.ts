@@ -1,4 +1,4 @@
-import { FeatureFlag } from "@/app/@types/flag";
+import { FeatureFlag } from "@/app/dashboard/flags/flag";
 import { current_api } from "../api/helper";
 import axios, { AxiosHeaders } from "axios";
 
@@ -13,7 +13,28 @@ export async function getFeatureFlag(props: getFeatureFlagRequestParams): Promis
 }
 
 export async function updateFeatureFlag(props: updateFeatureFlagRequestParams): Promise<FeatureFlag> {
-  return await axios.patch(`${feature_flag_api}/${props.id}`, props.body, props.headers as any);
+  console.log("herefff");
+
+  const f = props.body;
+
+  console.log(f);
+
+  console.log(props.body);
+
+  console.log(props.body.is_active);
+
+  const body = { ...props.body };
+
+  console.log(body);
+  return await (
+    await fetch(`${feature_flag_api}/${props.id}`, {
+      method: "PATCH",
+      headers: props.headers,
+
+      body: JSON.stringify({ ...body }),
+    })
+  ).json();
+  // return await axios.patch(`${feature_flag_api}/${props.id}`, props.body, props.headers as any);
 }
 
 export type listFeatureFlagsRequestParams = {

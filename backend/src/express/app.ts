@@ -12,15 +12,24 @@ const app = express();
 
 app.use(
   cors({
-    origin: [['http://app-front:3000', 'http://localhost:300', '*']],
+    origin: [
+      'http://app-front:3000',
+      'https://app-front:3000',
+      'http://app-front:3001',
+      'https://app-front:3001',
+      'http://app-front:8001',
+      'https://app-front:8001',
+      'http://app-front:8000',
+      'https://app-front:8000',
+      'http://localhost:3000',
+      '*',
+    ],
 
     methods: ['GET', 'POST', 'DELETE', 'PUT', 'HEAD', 'PATCH', 'OPTIONS'],
 
     maxAge: 864000,
 
     allowedHeaders: ['Content-Type', 'Authorization'],
-
-    credentials: true,
 
     optionsSuccessStatus: 200,
   }),
@@ -70,11 +79,15 @@ app.get('/feature-flags/:id', async (req, res, next) => {
 app.patch('/feature-flags/:id', async (req, res, next) => {
   try {
     //**** Sanitize input */
+    const id = req.params.id;
 
-    const input = { id: req.params.id };
+    console.log({ body: req.body });
+    const input_data = JSON.parse(req.body);
+    const input = { id, ...input_data };
     const repo = new FeatureFlagMongoRepository();
     const useCase = new UpdateFeatureFlagUseCase(repo);
     console.log({ input });
+
     const result = await useCase.execute(input);
 
     return res.sendStatus(200);
