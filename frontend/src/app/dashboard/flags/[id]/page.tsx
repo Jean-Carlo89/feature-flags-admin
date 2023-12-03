@@ -7,10 +7,6 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { NEXT_FEATURE_FLAG_URL } from "@/app/api/flags/helper";
 
 export default function SingleFlagPage({ params }: { params: { id: string } }) {
-  const [formData, setFormData] = useState({
-    name: "a",
-  });
-
   const [form, setForm] = useState({ name: "", description: "", is_active: false, created_at: null, updated_at: null });
 
   const router = useRouter();
@@ -19,20 +15,13 @@ export default function SingleFlagPage({ params }: { params: { id: string } }) {
   useEffect(() => {
     const { id } = params;
 
-    console.log(id);
     fetch(`/api/flags/${id}`)
       .then((res) => {
-        // console.log("no fetch");
-
         res.json().then((res) => {
-          console.log(res);
-          console.log({ res });
           setForm(res);
         });
       })
-      .catch((error) => {
-        console.log("no catch");
-      });
+      .catch((error) => {});
     // });
   }, []);
 
@@ -44,8 +33,6 @@ export default function SingleFlagPage({ params }: { params: { id: string } }) {
 
       return helper;
     });
-
-    console.log(form);
   }
   //**Form select changes the is_active from boolean to string when it is changed */
   function verifyEstate() {
@@ -69,7 +56,6 @@ export default function SingleFlagPage({ params }: { params: { id: string } }) {
     e.preventDefault();
     const { id } = params;
 
-    console.log("entrou no from");
     try {
       const body = JSON.stringify({
         name: form.name,
@@ -77,9 +63,7 @@ export default function SingleFlagPage({ params }: { params: { id: string } }) {
         is_active: verifyEstate(),
       });
 
-      console.log({ body });
-
-      fetch(`/api/flags/${id}`, {
+      fetch(`${NEXT_FEATURE_FLAG_URL}/${id}`, {
         method: "PATCH",
         body: body,
       });
@@ -105,12 +89,15 @@ export default function SingleFlagPage({ params }: { params: { id: string } }) {
   }
   const form__input_css = "text-black rounded-lg border-2  p-[20px] mx-[10px]";
   return (
-    <div className="flex justify-items-center items-center rounded-lg w-full h-full flex-col">
-      <div className=" border-4 border-red-500 flex justify-items-center items-center rounded-lg  w-full h-full p-[20px]  ">
-        <div className="w-[40px] h-[40px] border-4 border-red-500 absolute mb-[700px] ml-[400px] mt-[40px] cursor-pointer" onClick={deleteFlag}>
-          <FaRegTrashAlt size={35} />
+    <div className="  flex justify-items-center items-center rounded-lg w-full h-full flex-col">
+      <div className="  w-full flex-col  mx-auto my-auto  flex justify-items-center items-center rounded-lg  p-[20px]  ">
+        <div className="  flex w-full flex-row-reverse">
+          <div className="   w-[40px] h-[40px] border-4   cursor-pointer mr-[5%] mb-[2%]" onClick={deleteFlag}>
+            <FaRegTrashAlt size={35} />
+          </div>
         </div>
-        <form onSubmit={handleSubmit} className="flex flex-col mx-auto  bg-[#CBD5E1]    text-black w-[90%] h rounded-lg p-[10px] min-h-[30%]">
+
+        <form onSubmit={handleSubmit} className="   flex flex-col mx-auto  bg-[#CBD5E1]    text-black w-[90%] h rounded-lg p-[10px] min-h-[30%]">
           <label className="text-[18px] mx-[10px]">Nome</label>
           <input type="text" onChange={onChange} className={form__input_css} id="name" value={form.name}></input>
           <label className="text-[18px] mx-[10px]">Descrição</label>

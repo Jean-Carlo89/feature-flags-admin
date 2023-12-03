@@ -17,8 +17,6 @@ export default function FeatureFlagsPage() {
 
   useEffect(() => {
     fetch("/api/flags").then((res) => {
-      console.log(res);
-
       const json = res.json().then((res) => {
         setFlags(res);
       });

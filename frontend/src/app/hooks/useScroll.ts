@@ -11,13 +11,12 @@ export const useScroll = (last_index: number) => {
 
     const query = `${NEXT_FEATURE_FLAG_URL}?index=${last_index}`;
 
-    console.log("START HPOOK");
     console.log({ query });
 
     fetch(query, { headers: {} })
       .then((res) => {
         res.json().then((res) => {
-          console.log("REtorno do useScroll");
+          console.log("Retorno do useScroll");
           console.log({ res });
           // setFlags((prevFlags) => {
           //   return [...prevFlags, res];

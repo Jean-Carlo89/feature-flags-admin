@@ -18,7 +18,6 @@ const FeatureFlagToggle = (props: FeatureFlagProps) => {
     e.stopPropagation();
 
     try {
-      console.log({ id: props.id, is_active: !is_active });
       fetch(`/api/flags/${props.id}`, { method: "PATCH", body: JSON.stringify({ is_active: !is_active }) }).then((res) => {
         setIsActive(!is_active);
       });
