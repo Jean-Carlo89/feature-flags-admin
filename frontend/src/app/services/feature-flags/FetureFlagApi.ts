@@ -5,7 +5,17 @@ import axios, { AxiosHeaders } from "axios";
 const feature_flag_api = `${current_api}/feature-flags`;
 
 export async function getFeatureFlags(props?: listFeatureFlagsRequestParams): Promise<FeatureFlag[]> {
-  const response = await fetch(`${feature_flag_api}`, { headers: props?.headers, cache: "no-cache" });
+  console.log(props?.query);
+  console.log("ggggggggggggggggggggg");
+
+  let url = `${feature_flag_api}`;
+
+  if (props?.query) {
+    url += props.query;
+  }
+
+  console.log({ url });
+  const response = await fetch(url, { headers: props?.headers, cache: "no-cache" });
 
   const flags = response.json();
 
@@ -32,6 +42,7 @@ export async function updateFeatureFlag(props: updateFeatureFlagRequestParams): 
 }
 
 export type listFeatureFlagsRequestParams = {
+  query?: string;
   params?: {
     per_page?: number;
     index?: number;

@@ -4,19 +4,26 @@ import { FeatureFlag } from "../dashboard/flags/flag";
 
 export const useScroll = (last_index: number) => {
   const [loading, SetLoading] = useState(true);
-  const [flags, setFlags] = useState<FeatureFlag[]>([]);
+  const [new_flags, setNewFlags] = useState<FeatureFlag[]>([]);
 
   useEffect(() => {
     SetLoading(true);
 
-    console.log("hoooooooooooooooooks");
-    fetch(`${NEXT_FEATURE_FLAG_URL}?index=${last_index}`, { headers: {} })
+    const query = `${NEXT_FEATURE_FLAG_URL}?index=${last_index}`;
+
+    console.log("START HPOOK");
+    console.log({ query });
+
+    fetch(query, { headers: {} })
       .then((res) => {
         res.json().then((res) => {
+          console.log("REtorno do useScroll");
           console.log({ res });
-          setFlags((prevFlags) => {
-            return [...prevFlags, res];
-          });
+          // setFlags((prevFlags) => {
+          //   return [...prevFlags, res];
+          // });
+
+          setNewFlags(res);
           SetLoading(false);
           return res;
         });
@@ -29,5 +36,5 @@ export const useScroll = (last_index: number) => {
       });
   }, []);
 
-  return { loading, flags };
+  return { loading, new_flags };
 };

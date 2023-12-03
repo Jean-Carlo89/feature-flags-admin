@@ -22,9 +22,10 @@ export default function SingleFlagPage({ params }: { params: { id: string } }) {
 
         res.json().then((res) => {
           console.log(res);
+          console.log({ res });
           setForm(res);
 
-          console.log({ flag: form });
+          //console.log({ flag: form });
         });
       })
       .catch((error) => {
@@ -44,6 +45,23 @@ export default function SingleFlagPage({ params }: { params: { id: string } }) {
 
     console.log(form);
   }
+  //**Form select changes the is_active from boolean to string when it is changed */
+  function verifyEstate() {
+    let result: boolean = form.is_active;
+
+    try {
+      if (typeof form.is_active === "boolean") {
+        result = form.is_active;
+      }
+
+      if (typeof form.is_active === "string") {
+        result = form.is_active = "true" ? true : false;
+      }
+    } catch (error) {
+    } finally {
+      return result;
+    }
+  }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -51,13 +69,17 @@ export default function SingleFlagPage({ params }: { params: { id: string } }) {
 
     console.log("entrou no from");
     try {
+      const body = JSON.stringify({
+        name: form.name,
+        description: form.description,
+        is_active: verifyEstate(),
+      });
+
+      console.log({ body });
+
       fetch(`/api/flags/${id}`, {
         method: "PATCH",
-        body: JSON.stringify({
-          name: form.name,
-          description: form.description,
-          is_active: form.is_active === "true" ? true : false,
-        }),
+        body: body,
       });
     } catch (error) {
       alert("Não foi possível atualizar a flag");
@@ -72,7 +94,7 @@ export default function SingleFlagPage({ params }: { params: { id: string } }) {
         <label className="text-[18px] mx-[10px]">Descrição</label>
         <input type="text" onChange={onChange} className={form__input_css} name="descrição" id="description" value={form.description}></input>
         <label className="text-[18px] mx-[10px]">Estado</label>
-        <select className={form__input_css} onChange={onChange} name="estado" id="is_active" value={form.is_active === true ? true : false}>
+        <select className={form__input_css} onChange={onChange} name="estado" id="is_active" value={typeof form.is_active === "boolean" ? form.is_active : typeof form.is_active === "string" ? (form.is_active === "true" ? true : false) : null}>
           <option value={true}>Ativa</option>
           <option value={false}>Inativa</option>
         </select>
