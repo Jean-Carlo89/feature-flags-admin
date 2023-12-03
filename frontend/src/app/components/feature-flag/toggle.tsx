@@ -8,8 +8,8 @@ type FeatureFlagProps = {
   is_active: boolean;
 };
 
-const FeatureFlagToggle = ({ is_active, name, id }: FeatureFlagProps) => {
-  const [isActive, setIsActive] = useState(is_active);
+const FeatureFlagToggle = (props: FeatureFlagProps) => {
+  const [isActive, setIsActive] = useState(props.is_active);
 
   const toggleStatus = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -18,8 +18,8 @@ const FeatureFlagToggle = ({ is_active, name, id }: FeatureFlagProps) => {
   };
 
   return (
-    <Link href={`/dashboard/flags/${id}`} className="h-[100px] bg-white flex justify-between items-center hover:bg-gray-300 w-[90%] xl:w-[70%] p-4 rounded-lg mb-2 relative">
-      <p className="text-black">{name}</p>
+    <Link href={`/dashboard/flags/${props.id}?name=${props.name}`} className="h-[100px] bg-white flex justify-between items-center hover:bg-gray-300 w-[90%] xl:w-[70%] p-4 rounded-lg mb-2 relative">
+      <p className="text-black">{props.name}</p>
       {/* <Link  className="z-1">
         <p className="text-black">{name}</p>
       </Link> */}

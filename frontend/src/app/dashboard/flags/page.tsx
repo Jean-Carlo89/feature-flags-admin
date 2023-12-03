@@ -1,14 +1,18 @@
-import FeatureFlagToggle from "@/app/components/feature-flag/toglle";
-import useApi from "@/app/hooks/useApi";
-import { flag_mocks } from "@/app/mocks/flags-mocks";
-import fetchFeatureFlags from "@/app/services/feature-flags/fetchFeatureFlags";
+import FeatureFlagToggle from "@/app/components/feature-flag/toggle";
+
+import { EXPRESS_API_URI } from "../../services/api/helper";
+import { FeatureFlag } from "../../@types/flag";
+import { getFeatureFlags } from "@/app/services/feature-flags/FetureFlagApi";
 
 export default async function FeatureFlagsPage() {
-  const flags = await fetchFeatureFlags(1 as any);
+  const data = await fetch(`${EXPRESS_API_URI}/feature-flags`);
+
+  const flags: FeatureFlag[] = await getFeatureFlags();
+
   return (
     <div className=" container  h-full p-4  mb-2  w-full ">
       <ul className="w-full h-full flex  items-center flex-col  ">
-        {flag_mocks.map((flag) => {
+        {flags.map((flag) => {
           return <FeatureFlagToggle key={flag.id} {...flag} />;
         })}
       </ul>
