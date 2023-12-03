@@ -1,5 +1,6 @@
 import { FeatureFlag } from "@/app/@types/flag";
 import { current_api } from "../api/helper";
+import axios, { AxiosHeaders } from "axios";
 
 const feature_flag_api = `${current_api}/feature-flags`;
 
@@ -11,8 +12,8 @@ export async function getFeatureFlag(props: getFeatureFlagRequestParams): Promis
   return await (await fetch(`${feature_flag_api}/${props.id}`, { headers: props.headers })).json();
 }
 
-export async function upateFeatureFlag(props: getFeatureFlagRequestParams): Promise<FeatureFlag> {
-  return await (await fetch(`${feature_flag_api}/${props.id}`, { headers: props.headers })).json();
+export async function updateFeatureFlag(props: updateFeatureFlagRequestParams): Promise<FeatureFlag> {
+  return await axios.patch(`${feature_flag_api}/${props.id}`, props.body, props.headers as any);
 }
 
 export type listFeatureFlagsRequestParams = {
@@ -33,6 +34,11 @@ export type getFeatureFlagRequestParams = {
   };
 };
 
+export type updateFeatureFlagRequestParams = {
+  id: string;
+  body: Partial<FeatureFlag>;
+  headers?: Partial<AxiosHeaders>;
+};
 // export class FeatureFlagsApi {
 //   getFeatureFlags(props: listFeatureFlagsRequestParams) {
 //     return api.get("/feature-flags", { headers: props.headers, params: props.params });

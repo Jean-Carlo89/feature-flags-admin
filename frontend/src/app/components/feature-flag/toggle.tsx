@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
+import { updateFeatureFlag } from "../../services/feature-flags/FetureFlagApi";
 
 type FeatureFlagProps = {
   id: string;
@@ -11,9 +12,26 @@ type FeatureFlagProps = {
 const FeatureFlagToggle = (props: FeatureFlagProps) => {
   const [isActive, setIsActive] = useState(props.is_active);
 
-  const toggleStatus = (e: React.MouseEvent<HTMLDivElement>) => {
+  const toggleStatus = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
+
+    console.log("here");
+    try {
+      console.log("here");
+      await updateFeatureFlag({
+        id: props.id,
+        body: {
+          is_active: !isActive,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      //alert("Erro Atualizando o estado da flag");
+      return;
+    }
     setIsActive(!isActive);
   };
 
