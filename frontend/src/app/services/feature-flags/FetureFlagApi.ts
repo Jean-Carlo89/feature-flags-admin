@@ -5,36 +5,30 @@ import axios, { AxiosHeaders } from "axios";
 const feature_flag_api = `${current_api}/feature-flags`;
 
 export async function getFeatureFlags(props?: listFeatureFlagsRequestParams): Promise<FeatureFlag[]> {
-  return await (await fetch(`${feature_flag_api}`, { headers: props?.headers })).json();
+  const response = await fetch(`${feature_flag_api}`, { headers: props?.headers, cache: "no-cache" });
+
+  const flags = response.json();
+
+  return flags;
 }
 
 export async function getFeatureFlag(props: getFeatureFlagRequestParams): Promise<FeatureFlag> {
   return await (await fetch(`${feature_flag_api}/${props.id}`, { headers: props.headers })).json();
 }
 
-export async function updateFeatureFlag(props: updateFeatureFlagRequestParams): Promise<FeatureFlag> {
+export async function updateFeatureFlag(props: updateFeatureFlagRequestParams): Promise<void> {
   console.log("herefff");
 
-  const f = props.body;
+  const body_to_update = props;
 
-  console.log(f);
+  console.log({ body: body_to_update });
 
-  console.log(props.body);
+  await fetch(`${feature_flag_api}/${props.id}`, {
+    method: "PATCH",
+    headers: props.headers,
 
-  console.log(props.body.is_active);
-
-  const body = { ...props.body };
-
-  console.log(body);
-  return await (
-    await fetch(`${feature_flag_api}/${props.id}`, {
-      method: "PATCH",
-      headers: props.headers,
-
-      body: JSON.stringify({ ...body }),
-    })
-  ).json();
-  // return await axios.patch(`${feature_flag_api}/${props.id}`, props.body, props.headers as any);
+    body: JSON.stringify({ ...body_to_update }),
+  });
 }
 
 export type listFeatureFlagsRequestParams = {

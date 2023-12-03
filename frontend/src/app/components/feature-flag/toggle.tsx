@@ -17,24 +17,13 @@ const FeatureFlagToggle = (props: FeatureFlagProps) => {
     e.preventDefault();
     e.stopPropagation();
 
-    // await updateFeatureFlag({
-    //   id: props.id,
-    //   body: {
-    //     is_active: !is_active,
-    //   },
-    // });
-    const feature_flag_api = `${current_api}/feature-flags`;
-
     try {
-      await fetch(`${feature_flag_api}/${props.id}`, {
-        method: "PATCH",
-
-        body: JSON.stringify({ is_active: !is_active }),
+      console.log({ id: props.id, is_active: !is_active });
+      fetch(`/api/flags/${props.id}`, { method: "PATCH", body: JSON.stringify({ is_active: !is_active }) }).then((res) => {
+        setIsActive(!is_active);
       });
-
-      setIsActive(!is_active);
     } catch (error) {
-      alert("Erro atualziando");
+      alert("Erro atualizando");
     }
   };
 
