@@ -7,6 +7,8 @@ import { RxSketchLogo, RxDashboard, RxPerson } from "react-icons/rx";
 import { FaReact } from "react-icons/fa";
 import MenuLink from "../menu-link/menuLink";
 import { IoAddCircleOutline } from "react-icons/io5";
+
+import { FaSearch } from "react-icons/fa";
 type BarProps = {
   children: React.ReactNode;
 };
@@ -26,6 +28,8 @@ export default function bar({ children }: BarProps) {
         <MenuLink children={<RxDashboard size={25} />} href={"/dashboard/flags"} className={"text-black bg-gray-100 hover:bg-gray-300 cursor-pointer my-4 p-3 rounded-lg inline-block"} />
 
         <MenuLink children={<IoAddCircleOutline size={25} />} href={"/dashboard/flags/add"} className={"text-black bg-gray-100 hover:bg-gray-300 cursor-pointer my-4 p-3 rounded-lg inline-block"} />
+
+        <MenuLink children={<FaSearch size={25} />} href={"/dashboard/flags/search"} className={"text-black bg-gray-100 hover:bg-gray-300 cursor-pointer my-4 p-3 rounded-lg inline-block"} />
       </div>
 
       <div className=" ml-[15px] mb-[5px] rounded-full z-20 bg-slate-500 w-[50px] h-[50px] bg-rounded">

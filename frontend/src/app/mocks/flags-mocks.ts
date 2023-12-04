@@ -9,7 +9,25 @@ const flag: FeatureFlag = {
   created_at: new Date(),
 };
 
-export const flag_mocks: FeatureFlag[] = [];
+export const flag_mocks: FeatureFlag[] = [
+  {
+    id: "1",
+    name: "funcao 1",
+    is_active: false,
+    description: "aa",
+    updated_at: new Date(),
+    created_at: new Date(),
+  },
+
+  {
+    id: "1",
+    name: "funcao 1",
+    is_active: false,
+    description: "aa",
+    updated_at: new Date(),
+    created_at: new Date(),
+  },
+];
 // export const flag_mocks: FeatureFlag[] = [
 //   {
 //     id: "1",

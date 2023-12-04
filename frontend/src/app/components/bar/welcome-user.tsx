@@ -5,11 +5,5 @@ import React, { useEffect, useState } from "react";
 export default function WelcomeUser() {
   const { user, setUser } = useGlobalContext();
 
-  //   useEffect(() => {
-  //     setUser({
-  //       id: "lala",
-  //       name: "Sharko",
-  //     });
-  //   });
-  return <div>welcome-user, {user?.name}</div>;
+  return <div>Bem vindo, {user?.name}</div>;
 }
