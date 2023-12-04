@@ -6,7 +6,7 @@ import {
 } from '../../../../shared/infra/mongo/config';
 import { MongoClient } from 'mongodb';
 import { FeatureFlag } from '../../../../feature-flag/domain/FeatureFlag.entity';
-import { setupMongo } from '../../../../feature-flag/infra/testing/helper';
+import { setupMongo } from '../../../../shared/testing/helper';
 import { NotFoundError } from '../../../../shared/domain/errors/NotFoundError';
 
 setupMongo();

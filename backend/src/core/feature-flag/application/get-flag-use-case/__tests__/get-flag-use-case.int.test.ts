@@ -1,12 +1,12 @@
-import { FeatureFlagMongoRepository } from '../../../../feature-flag/infra/mongo/feature-flag-mongo.repository';
+import { FeatureFlagMongoRepository } from '../../../infra/mongo/feature-flag-mongo.repository';
 import { GetFeatureFlagUseCase } from '../get-flag.use-case';
 import {
   close_connection,
   connect_to_mongoDb,
 } from '../../../../shared/infra/mongo/config';
 import { MongoClient } from 'mongodb';
-import { FeatureFlag } from '../../../../feature-flag/domain/FeatureFlag.entity';
-import { setupMongo } from '../../../../feature-flag/infra/testing/helper';
+import { FeatureFlag } from '../../../domain/FeatureFlag.entity';
+import { setupMongo } from '../../../../shared/testing/helper';
 import { NotFoundError } from '../../../../shared/domain/errors/NotFoundError';
 
 setupMongo();

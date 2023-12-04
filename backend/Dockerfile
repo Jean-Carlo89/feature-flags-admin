@@ -11,3 +11,5 @@ COPY package.json .
 COPY . .
 
 CMD ["tail", "-f" ,"/dev/null"]
+
+#CMD ["npm", "run" ,"start:express"]

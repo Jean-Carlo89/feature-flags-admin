@@ -16,10 +16,29 @@ export class ListFeatureFlagsUseCase
   }
 
   async execute(input?: ListFeatureFlagInput): Promise<ListFeatureFlagOutput> {
+    if (typeof input?.per_page !== 'number') {
+      delete input?.per_page;
+    }
+
+    if (typeof input?.index !== 'number') {
+      delete input?.index;
+    }
+
+    if (!input?.per_page) {
+      delete input?.per_page;
+    }
+
+    if (!input.index) {
+      delete input?.index;
+    }
+
+   
     const result = await this.FeatureFlagRepository.findAll(
       input?.per_page,
       input?.index,
     );
+
+ 
 
     return result;
   }

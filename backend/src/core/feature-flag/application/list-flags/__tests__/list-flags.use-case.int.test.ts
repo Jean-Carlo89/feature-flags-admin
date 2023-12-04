@@ -5,7 +5,7 @@ import {
 } from '../../../domain/FeatureFlag.entity';
 import { FeatureFlagInMemoryRepository } from '../../../infra/in-memory/flag-in-memory.repository';
 import { ListFeatureFlagsUseCase } from '../list-flags.use-case';
-import { setupMongo } from '../../../../feature-flag/infra/testing/helper';
+import { setupMongo } from '../../../../shared/testing/helper';
 import exp from 'constants';
 
 setupMongo();

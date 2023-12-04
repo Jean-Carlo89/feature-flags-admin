@@ -8,6 +8,11 @@ import { GetFeatureFlagUseCase } from '../core/feature-flag/application/get-flag
 import { UpdateFeatureFlagUseCase } from '../core/feature-flag/application/update-feature-flag/update-flag.use-case';
 import { ListFeatureFlagsUseCase } from '../core/feature-flag/application/list-flags/list-flags.use-case';
 import { DeleteFeatureFlagUseCase } from '../core/feature-flag/application/delete-flag/delete-flag.use-case';
+import { FeatureFlagFakeFactory } from '../core/feature-flag/domain/FeatureFlagFakeFactory';
+import { FeatureFlag } from '../core/feature-flag/domain/FeatureFlag.entity';
+import { Uuid } from '@core/shared/domain/uuid';
+import { feature_flags_router } from './routes/feature-flags/router';
+import { users_router } from './routes/users/router';
 const app = express();
 
 app.use(
@@ -43,90 +48,9 @@ app.get('/', function (req, res) {
   res.send('Hello There');
 });
 
-app.post('/feature-flags', async (req, res, next) => {
-  try {
-    //**** Sanitize input */
+app.use('/api/feature-flags', feature_flags_router);
 
-    const input = { ...req.body };
-
-    const repo = new FeatureFlagMongoRepository();
-    const useCase = new CreateFeatureFlagUseCase(repo);
-
-    await useCase.execute(input);
-
-    return res.sendStatus(201);
-  } catch (error) {
-    next(error);
-  }
-});
-
-app.get('/feature-flags/:id', async (req, res, next) => {
-  try {
-    //**** Sanitize input */
-
-    const input = { id: req.params.id };
-    const repo = new FeatureFlagMongoRepository();
-    const useCase = new GetFeatureFlagUseCase(repo);
-
-    const result = await useCase.execute(input);
-
-    return res.status(200).send(result);
-  } catch (error) {
-    next(error);
-  }
-});
-
-app.patch('/feature-flags/:id', async (req, res, next) => {
-  try {
-    //**** Sanitize input */
-    const id = req.params.id;
-
-    console.log({ body: req.body });
-    const input_data = JSON.parse(req.body);
-    const input = { id, ...input_data };
-    const repo = new FeatureFlagMongoRepository();
-    const useCase = new UpdateFeatureFlagUseCase(repo);
-    console.log({ input });
-
-    const result = await useCase.execute(input);
-
-    return res.sendStatus(200);
-  } catch (error) {
-    next(error);
-  }
-});
-
-app.get('/feature-flags', async (req, res, next) => {
-  try {
-    //**** Sanitize input */
-
-    const input = { ...req.body };
-    const repo = new FeatureFlagMongoRepository();
-    const useCase = new ListFeatureFlagsUseCase(repo);
-
-    const result = await useCase.execute(input);
-
-    return res.status(200).send(result);
-  } catch (error) {
-    next(error);
-  }
-});
-
-app.delete('/feature-flags/:id', async (req, res, next) => {
-  try {
-    //**** Sanitize input */
-
-    const input = { id: req.params.id };
-    const repo = new FeatureFlagMongoRepository();
-    const useCase = new DeleteFeatureFlagUseCase(repo);
-
-    await useCase.execute(input);
-
-    return res.sendStatus(200);
-  } catch (error) {
-    next(error);
-  }
-});
+app.use('/api/users', users_router);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
@@ -135,6 +59,10 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
   if (err instanceof ValidationError) {
     return res.status(400).json(err.message);
+  }
+
+  if (err instanceof NotFoundError) {
+    return res.status(404).json(err.message);
   }
 
   return res.status(500).send('Internal server error');

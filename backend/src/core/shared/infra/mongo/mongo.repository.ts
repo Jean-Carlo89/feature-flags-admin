@@ -73,7 +73,7 @@ abstract class MongoRepository {
     collection_name: string,
 
     startIndex: number = 0,
-    numberOfDocuments: number = 0,
+    numberOfDocuments: number = 20,
   ): Promise<Document[]> {
     try {
       const pipeline = [{ $skip: startIndex }, { $limit: numberOfDocuments }];
@@ -88,6 +88,18 @@ abstract class MongoRepository {
       console.error(e);
       throw new Error(`An error occurred getting all documents`);
     }
+  }
+
+  public async find_string(q: RegExp, collection_name: string) {
+    const result = await this.mdb_client
+
+      .db(this.mdb_name)
+      .collection(collection_name)
+      .find({
+        name: { $regex: new RegExp(q, 'i') },
+      })
+      .toArray();
+    return result;
   }
 
   protected async insert_many(collection_name: string, documents: object[]) {

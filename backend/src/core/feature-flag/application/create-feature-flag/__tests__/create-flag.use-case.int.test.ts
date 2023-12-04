@@ -6,7 +6,7 @@ import {
 } from '../../../../shared/infra/mongo/config';
 import { MongoClient } from 'mongodb';
 import { FeatureFlag } from '../../../../feature-flag/domain/FeatureFlag.entity';
-import { setupMongo } from '../../../../feature-flag/infra/testing/helper';
+import { setupMongo } from '../../../../shared/testing/helper';
 import { IFeatureFlagRepository } from '../../../../feature-flag/domain/FeatureFlag.repository';
 
 setupMongo();
@@ -20,11 +20,15 @@ describe('Create FeatureFlag Use Case Integration tests', () => {
     repository = new FeatureFlagMongoRepository();
     useCase = new CreateFeatureFlagUseCase(repository);
   });
-  it('testff', async () => {
+  it('', async () => {
     const props = FeatureFlag.fake();
 
     //  const flag = new FeatureFlag(props);
 
     await useCase.execute(props);
+
+    const flag = await repository.find(props.id);
+
+    expect(flag.id).toBe(props.id);
   });
 });

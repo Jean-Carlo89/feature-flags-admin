@@ -1,7 +1,4 @@
-import {
-  close_connection,
-  connect_to_mongoDb,
-} from '../../../shared/infra/mongo/config';
+import { close_connection, connect_to_mongoDb } from '../infra/mongo/config';
 import { MongoClient } from 'mongodb';
 //import { FeatureFlagMongoRepository } from '../mongo/feature-flag-mongo.repository';
 

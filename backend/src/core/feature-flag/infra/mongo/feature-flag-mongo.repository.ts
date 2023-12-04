@@ -59,7 +59,13 @@ export class FeatureFlagMongoRepository
       ? FeatureFlagModelMapper.toEntity(result as FeatureFlagModel)
       : null;
   }
-  async findAll(per_page: number = 20, index?: number): Promise<FeatureFlag[]> {
+  async findAll(
+    per_page: number = 20,
+    index: number = 0,
+  ): Promise<FeatureFlag[]> {
+    if (per_page === 0) {
+      per_page++;
+    }
     const models = await super.find_all(this.collection_name, index, per_page);
 
     const entities = models.map((model) => {
