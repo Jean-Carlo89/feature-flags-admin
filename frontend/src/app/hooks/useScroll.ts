@@ -5,24 +5,25 @@ import { FeatureFlag } from "../dashboard/flags/flag";
 export const useScroll = (last_index: number) => {
   const [loading, SetLoading] = useState(true);
   const [new_flags, setNewFlags] = useState<FeatureFlag[]>([]);
+  const [hasMore, setHasMore] = useState(false);
 
   useEffect(() => {
     SetLoading(true);
 
     const query = `${NEXT_FEATURE_FLAG_URL}?index=${last_index}`;
 
-    console.log({ query });
-
     fetch(query, { headers: {} })
       .then((res) => {
         res.json().then((res) => {
-          console.log("Retorno do useScroll");
-          console.log({ res });
-          // setFlags((prevFlags) => {
-          //   return [...prevFlags, res];
-          // });
+          const length = res.length;
 
-          setNewFlags(res);
+          setNewFlags((prevFlags) => {
+            return [...prevFlags, ...res];
+          });
+          setHasMore(res.length > 0);
+          SetLoading(false);
+
+          // setNewFlags(res);
           SetLoading(false);
           return res;
         });
@@ -33,7 +34,7 @@ export const useScroll = (last_index: number) => {
 
         SetLoading(false);
       });
-  }, []);
+  }, [last_index]);
 
-  return { loading, new_flags };
+  return { loading, new_flags, hasMore };
 };
