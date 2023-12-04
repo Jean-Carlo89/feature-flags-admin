@@ -74,7 +74,9 @@ export default function AddFeatureFlag() {
           <option value={false}>Inativa</option>
         </select>
 
-        <button className="w-full p-[20px] my-5 bg-orange-400 text-white 0 rounded-[5px] text-[20px]">Criar</button>
+        <button disabled={loading} className="w-full p-[20px] my-5 bg-orange-400 text-white 0 rounded-[5px] text-[20px]">
+          Criar
+        </button>
       </form>
     </div>
   );

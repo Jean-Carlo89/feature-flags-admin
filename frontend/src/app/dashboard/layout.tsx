@@ -1,4 +1,5 @@
 import Bar from "../components/bar/bar";
+import WelcomeUser from "../components/bar/welcome-user";
 
 type DashboardLayoutProps = {
   children: React.ReactNode;
@@ -7,7 +8,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <div className="bg-orange-100  h-[100vh] w-full flex justify-center items-center  ">
       <main className="h-full w-full mx-auto container">
-        <header className="text-3xl">Dashboard Boticário</header>
+        <header className="text-3xl flex border-4 border-red-500 justify-between">
+          <div> Dashboard Boticário</div>
+          <WelcomeUser />
+        </header>
         <div className="flex flex-col   container h-[90vh] max-h-[2000px]  mt-5 rounded-[20px] overflow-hidden border-2">
           <div className="flex h-full  border-2 ">
             <div className="w-[80px]    ">

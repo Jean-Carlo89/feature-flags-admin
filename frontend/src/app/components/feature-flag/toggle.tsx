@@ -8,7 +8,7 @@ type FeatureFlagProps = {
   id: string;
   name: string;
   is_active: boolean;
-  ref?: RefAttributes<HTMLAnchorElement>;
+  ref?: RefAttributes<any>;
 };
 
 const FeatureFlagToggle = (props: FeatureFlagProps) => {
@@ -28,7 +28,7 @@ const FeatureFlagToggle = (props: FeatureFlagProps) => {
   };
 
   return (
-    <Link ref={props.ref} href={`/dashboard/flags/${props.id}?name=${props.name}`} className=" mx-auto  h-[100px] bg-white flex justify-between items-center hover:bg-gray-300 w-[90%] xl:w-[70%] p-4 rounded-lg mb-2 ">
+    <Link ref={props.ref as any} href={`/dashboard/flags/${props.id}?name=${props.name}`} className=" mx-auto  h-[100px] bg-white flex justify-between items-center hover:bg-gray-300 w-[90%] xl:w-[70%] p-4 rounded-lg mb-2 ">
       <p className="text-black">{props.name}</p>
       {/* <Link  className="z-1">
         <p className="text-black">{name}</p>
