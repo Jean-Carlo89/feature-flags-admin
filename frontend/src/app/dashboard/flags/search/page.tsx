@@ -3,27 +3,29 @@ import FeatureFlagToggle from "@/app/components/feature-flag/toggle";
 import SearchBar from "@/app/components/search/SearchBar";
 import Search from "@/app/components/search/SearchBar";
 import { flag_mocks } from "@/app/mocks/flags-mocks";
+import { current_api } from "@/app/services/api/helper";
 import React, { useState } from "react";
+import { FeatureFlag } from "../flag";
 
-export default function SearchFlagPage({ searchParams }) {
+export default async function SearchFlagPage({ searchParams }) {
   const query = searchParams?.q | "";
 
-  console.log(searchParams.q);
+  let flags: FeatureFlag[] = [];
 
-  console.log(searchParams);
+  if (searchParams?.q) {
+    const response = await fetch(`${current_api}/feature-flags/state?q=${searchParams.q}`, {});
 
-  console.log(query);
-
-  console.log({ query2: searchParams.q });
+    flags = await response.json();
+  }
 
   const loading = false;
   return (
     <>
       <div className=" container  h-full p-4  mb-2  w-full  ">
         <SearchBar />
-        <ul className="w-full h-full flex  flex-col  overflow overflow-y-scroll   justify-items-center items-center">
-          {flag_mocks.map((flag, index) => {
-            if (flag_mocks.length === index + 1) {
+        <ul className="w-full h-full flex  flex-col  overflow overflow-y-scroll   justify-items-center items-center mt-[10px]">
+          {flags.map((flag, index) => {
+            if (flags.length === index + 1) {
               return (
                 <div className="w-full   mx-auto flex justify-items-center items-center " key={flag.id}>
                   <FeatureFlagToggle key={flag.id} {...flag} />
