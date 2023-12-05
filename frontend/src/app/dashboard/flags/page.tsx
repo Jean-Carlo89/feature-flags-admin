@@ -34,8 +34,6 @@ export default function FeatureFlagsPage() {
     [loading, hasMore]
   );
 
- 
-
   return (
     <>
       {new_flags.length === 0 ? (

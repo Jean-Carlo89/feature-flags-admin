@@ -2,9 +2,10 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { NEXT_FEATURE_FLAG_URL } from "../api/flags/helper";
 import { FeatureFlag } from "../dashboard/flags/flag";
 import { useRouter } from "next/navigation";
+import jsonwebtoken from "jsonwebtoken";
 
 export const useScroll = (last_index: number, flags?: Dispatch<SetStateAction<FeatureFlag[]>>) => {
-  const [loading, SetLoading] = useState(true);
+  const [loading, SetLoading] = useState(false);
   const [new_flags, setNewFlags] = useState<FeatureFlag[]>([]);
   const [hasMore, setHasMore] = useState(false);
 
@@ -26,12 +27,15 @@ export const useScroll = (last_index: number, flags?: Dispatch<SetStateAction<Fe
               return router.push("/login");
             }
 
+            console.log(res);
+
+            console.log({ res2: res.json });
+
             setNewFlags((prevFlags) => {
-              console.log({ res });
               return [...prevFlags, ...res.json];
             });
 
-            setHasMore(res.length > 0);
+            setHasMore(res.json.length > 0);
             SetLoading(false);
 
             // setNewFlags(res);

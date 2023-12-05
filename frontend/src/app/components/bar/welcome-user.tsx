@@ -12,7 +12,7 @@ export default function WelcomeUser() {
   // });
 
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     if (localStorage.length !== 0) {
       const user_local = localStorage.getItem("user");
       if (!user_local) {
@@ -22,7 +22,7 @@ export default function WelcomeUser() {
       const list = JSON.parse(user_local as string);
       const { user, token } = list;
       setUser(user);
-      setLoading(false);
+      // setLoading(false);
       //  router.push("/dashboard/flags");
     }
   }, []);

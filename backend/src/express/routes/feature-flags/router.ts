@@ -168,6 +168,7 @@ feature_flags_router.patch(
       const repo = new FeatureFlagMongoRepository();
       const useCase = new UpdateFeatureFlagUseCase(repo);
 
+      
       const result = await useCase.execute(input);
 
       return res.sendStatus(200);

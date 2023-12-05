@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { FeatureFlag } from "../flag";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { NEXT_FEATURE_FLAG_URL } from "@/app/api/flags/helper";
+import { setupMongo } from "@core/shared/testing/helper";
 
 export default function SingleFlagPage({ params }: { params: { id: string } }) {
   const [form, setForm] = useState({ name: "", description: "", is_active: false, created_at: null, updated_at: null });
@@ -48,10 +49,14 @@ export default function SingleFlagPage({ params }: { params: { id: string } }) {
     try {
       if (typeof form.is_active === "boolean") {
         result = form.is_active;
+
+        return;
       }
 
       if (typeof form.is_active === "string") {
-        result = form.is_active = "true" ? true : false;
+        result = form.is_active === "true" ? true : false;
+
+        return;
       }
     } catch (error) {
     } finally {
@@ -76,6 +81,11 @@ export default function SingleFlagPage({ params }: { params: { id: string } }) {
       });
 
       const json = await response.json();
+
+      if (json.status === 401) {
+        alert("Sua Sessao expirou");
+        return;
+      }
 
       if (json.status === 200) {
         alert("Flag atualizada com sucesso");
