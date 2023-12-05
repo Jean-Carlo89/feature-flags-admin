@@ -53,6 +53,7 @@ users_router.post('/login', async (req, res, next) => {
         user: { id: user.id, name: user.name },
       };
 
+    
       return res.status(200).send(response);
     } else {
       return res.status(400).send('Email ou senha incorretos');

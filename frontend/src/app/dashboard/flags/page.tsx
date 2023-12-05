@@ -34,14 +34,7 @@ export default function FeatureFlagsPage() {
     [loading, hasMore]
   );
 
-  // useEffect(() => {
-  //   fetch("/api/flags").then((res) => {
-  //     const json = res.json().then((res) => {
-  //       console.log({ first: res });
-  //       setFlags(res);
-  //     });
-  //   });
-  // }, []);
+ 
 
   return (
     <>

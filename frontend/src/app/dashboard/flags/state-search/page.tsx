@@ -13,7 +13,7 @@ import { redirect } from "next/navigation";
 export default async function SearchFlagPage({ searchParams }) {
   const query = searchParams?.q | "";
 
-  let flags: FeatureFlag[] = [];
+  let flags: boolean[] = [];
   // const cookieStore = cookies();
   // const theme = cookieStore.get("token")
   const token = getToken();
@@ -39,13 +39,13 @@ export default async function SearchFlagPage({ searchParams }) {
             if (flags.length === index + 1) {
               return (
                 <div className="w-full   mx-auto flex justify-items-center items-center " key={index}>
-                  <FeatureFlagToggle key={index} {...flag} />
+                  <FeatureFlagToggle key={index} is_active={flag} />
                 </div>
               );
             } else {
               return (
                 <div className="w-full   mx-auto flex justify-items-center items-center " key={index}>
-                  <FeatureFlagToggle key={index} {...flag} />
+                  <FeatureFlagToggle key={index} is_active={flag} />
                 </div>
               );
             }

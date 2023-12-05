@@ -11,23 +11,27 @@ import { Router } from 'express';
 
 const feature_flags_router = Router();
 
-feature_flags_router.post('/', async (req, res, next) => {
-  try {
-    //**** Sanitize input */
+feature_flags_router.post(
+  '/',
 
-    const input_data = JSON.parse(req.body);
+  async (req, res, next) => {
+    try {
+      //**** Sanitize input */
 
-    const input = { ...input_data };
-    const repo = new FeatureFlagMongoRepository();
-    const useCase = new CreateFeatureFlagUseCase(repo);
+      const input_data = JSON.parse(req.body);
 
-    await useCase.execute(input);
+      const input = { ...input_data };
+      const repo = new FeatureFlagMongoRepository();
+      const useCase = new CreateFeatureFlagUseCase(repo);
 
-    return res.sendStatus(201);
-  } catch (error) {
-    next(error);
-  }
-});
+      await useCase.execute(input);
+
+      return res.sendStatus(201);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 feature_flags_router.post('/many', async (req, res, next) => {
   try {
@@ -55,7 +59,7 @@ feature_flags_router.post('/many', async (req, res, next) => {
 });
 
 feature_flags_router.get(
-  '/state',
+  '/search',
 
   async (req, res, next) => {
     try {
@@ -82,8 +86,39 @@ feature_flags_router.get(
 );
 
 feature_flags_router.get(
-  '/state/:id',
+  '/state-search',
+
   verify_header_token_middleware,
+  async (req, res, next) => {
+    try {
+      // //**** Sanitize input */
+
+      const q = req.query.q;
+
+      if (typeof q != 'string') {
+        return res.status(404).send('query must be a string');
+      }
+
+      const repo = new FeatureFlagMongoRepository();
+
+      const result = await repo.find_string(q as any, 'FeatureFlags');
+
+      const filtered_result = result.map((item) => {
+        return item.is_active;
+      });
+
+      return res.status(200).send(filtered_result);
+
+      return res.sendStatus(200);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
+
+feature_flags_router.get(
+  '/state/:id',
+
   async (req, res, next) => {
     try {
       // //**** Sanitize input */
@@ -119,24 +154,28 @@ feature_flags_router.get('/:id', async (req, res, next) => {
   }
 });
 
-feature_flags_router.patch('/:id', async (req, res, next) => {
-  try {
-    //**** Sanitize input */
-    const id = req.params.id;
+feature_flags_router.patch(
+  '/:id',
 
-    const input_data = JSON.parse(req.body);
+  async (req, res, next) => {
+    try {
+      //**** Sanitize input */
+      const id = req.params.id;
 
-    const input = { id, ...input_data };
-    const repo = new FeatureFlagMongoRepository();
-    const useCase = new UpdateFeatureFlagUseCase(repo);
+      const input_data = JSON.parse(req.body);
 
-    const result = await useCase.execute(input);
+      const input = { id, ...input_data };
+      const repo = new FeatureFlagMongoRepository();
+      const useCase = new UpdateFeatureFlagUseCase(repo);
 
-    return res.sendStatus(200);
-  } catch (error) {
-    next(error);
-  }
-});
+      const result = await useCase.execute(input);
+
+      return res.sendStatus(200);
+    } catch (error) {
+      next(error);
+    }
+  },
+);
 
 feature_flags_router.get('/', async (req, res, next) => {
   try {

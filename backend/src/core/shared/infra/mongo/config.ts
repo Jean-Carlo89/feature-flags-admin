@@ -4,7 +4,7 @@ const connect_to_mongoDb = async (uri?: string): Promise<MongoClient> => {
   const database_uri = uri || process.env.MDB_URI;
 
   console.log(`Connecting to Database: ${database_uri} .....`);
-  // console.log(database_uri);
+
   const client = new MongoClient(database_uri);
 
   try {

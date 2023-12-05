@@ -7,12 +7,12 @@ export async function verify_header_token_middleware(
   next: NextFunction,
 ) {
   try {
-    if (!req.headers || !req.headers['authorization']) {
-      return res.status(401).send('Token missing');
+    if (!req.headers['authorization']) {
+      return res.status(401).json({ message: 'Token missing' });
     }
 
     if (!req.headers['authorization'].startsWith('Bearer ')) {
-      return res.status(401).send('Invalid token format');
+      return res.status(401).json('Invalid token format');
     }
 
     const jwt = req.headers['authorization'].replace('Bearer ', '');
@@ -20,7 +20,7 @@ export async function verify_header_token_middleware(
     const [result, token_payload] = verify_token(jwt);
 
     if (!token_payload) {
-      return res.status(401).send('unauthorized token');
+      return res.status(401).json({ message: 'unauthorized token' });
     }
 
     res.locals.token = token_payload;
@@ -28,7 +28,7 @@ export async function verify_header_token_middleware(
     next();
   } catch (error) {
     console.error(error);
-    return res.send('Erro na verificação.');
+    return res.status(400).json({ message: 'Erro na verificaçãp' });
   }
 }
 

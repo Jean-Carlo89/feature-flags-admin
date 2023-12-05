@@ -20,6 +20,7 @@ services:
       - ./frontend:/home/node/app
   app-db:
     image: mongo:6.0.2
+
     ports:
       - 27027:27017
         # environment:

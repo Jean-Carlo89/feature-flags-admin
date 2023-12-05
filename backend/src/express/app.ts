@@ -1,18 +1,10 @@
-import { CreateFeatureFlagUseCase } from '../core/feature-flag/application/create-feature-flag/create-flag.use-case';
-import { FeatureFlagMongoRepository } from '../core/feature-flag/infra/mongo/feature-flag-mongo.repository';
 import cors from 'cors';
 import { ValidationError } from '../core/shared/domain/errors/ValidationError';
 import { NotFoundError } from '../core/shared/domain/errors/NotFoundError';
 import express, { NextFunction, Request, Response } from 'express';
-import { GetFeatureFlagUseCase } from '../core/feature-flag/application/get-flag-use-case/get-flag.use-case';
-import { UpdateFeatureFlagUseCase } from '../core/feature-flag/application/update-feature-flag/update-flag.use-case';
-import { ListFeatureFlagsUseCase } from '../core/feature-flag/application/list-flags/list-flags.use-case';
-import { DeleteFeatureFlagUseCase } from '../core/feature-flag/application/delete-flag/delete-flag.use-case';
-import { FeatureFlagFakeFactory } from '../core/feature-flag/domain/FeatureFlagFakeFactory';
-import { FeatureFlag } from '../core/feature-flag/domain/FeatureFlag.entity';
-import { Uuid } from '@core/shared/domain/uuid';
 import { feature_flags_router } from './routes/feature-flags/router';
 import { users_router } from './routes/users/router';
+import { verify_header_token_middleware } from '../core/shared/middleware/verify_token_middleware';
 const app = express();
 
 app.use(
@@ -48,7 +40,12 @@ app.get('/', function (req, res) {
   res.send('Hello There');
 });
 
-app.use('/api/feature-flags', feature_flags_router);
+//
+app.use(
+  '/api/feature-flags',
+  verify_header_token_middleware,
+  feature_flags_router,
+);
 
 app.use('/api/users', users_router);
 
