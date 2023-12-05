@@ -8,7 +8,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <div className="bg-orange-100  h-[100vh] w-full flex justify-center items-center  ">
       <main className="h-full w-full mx-auto container">
-        <header className="text-3xl flex border-4 border-red-500 justify-between">
+        <header className="text-3xl flex  justify-between">
           <div> Dashboard Boticário</div>
           <WelcomeUser />
         </header>

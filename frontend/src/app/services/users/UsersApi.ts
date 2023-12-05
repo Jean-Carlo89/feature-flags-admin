@@ -15,8 +15,6 @@ export async function LoginRequest(props: LoginRequestParams): Promise<LoginRequ
 
   const response = await request.json();
 
-  console.log({ response });
-
   return response;
 }
 

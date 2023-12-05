@@ -6,26 +6,38 @@ import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adap
 
 const feature_flag_api = `${current_api}/feature-flags`;
 
-export async function getFeatureFlags(props?: listFeatureFlagsRequestParams): Promise<FeatureFlag[]> {
+export async function getFeatureFlags(props?: listFeatureFlagsRequestParams): Promise<ProxyRequestResponse> {
   let url = `${feature_flag_api}`;
 
   if (props?.query) {
     url += props.query;
   }
 
-  const response = await fetch(url, { headers: props?.headers, cache: "no-cache" });
+  const response = await fetch(url, { headers: getAuthHeader(), cache: "no-cache" });
 
-  const flags = response.json();
+  const resp = await generate_proxy_response(response);
 
-  return flags;
+  return resp;
 }
 
-export async function getFeatureFlag(props: getFeatureFlagRequestParams): Promise<FeatureFlag> {
-  return await (await fetch(`${feature_flag_api}/${props.id}`, { headers: props.headers })).json();
+export async function getFeatureFlag(props: getFeatureFlagRequestParams): Promise<ProxyRequestResponse> {
+  // return await (await fetch(`${feature_flag_api}/${props.id}`, { headers: getAuthHeader() })).json();
+
+  const response = await fetch(`${feature_flag_api}/${props.id}`, { headers: getAuthHeader() });
+
+  const resp = await generate_proxy_response(response);
+
+  return resp;
 }
 
-export async function deleteFeatureFlag(props: getFeatureFlagRequestParams): Promise<FeatureFlag> {
-  return await (await fetch(`${feature_flag_api}/${props.id}`, { method: "DELETE", headers: props.headers })).json();
+export async function deleteFeatureFlag(props: getFeatureFlagRequestParams): Promise<ProxyRequestResponse> {
+  // return await (await fetch(`${feature_flag_api}/${props.id}`, { method: "DELETE", headers: getAuthHeader() })).json();
+
+  const response = await fetch(`${feature_flag_api}/${props.id}`, { method: "DELETE", headers: getAuthHeader(), cache: "no-cache" });
+
+  const resp = await generate_proxy_response(response);
+
+  return resp;
 }
 
 export async function updateFeatureFlag(props: updateFeatureFlagRequestParams): Promise<ProxyRequestResponse> {
@@ -33,7 +45,7 @@ export async function updateFeatureFlag(props: updateFeatureFlagRequestParams): 
 
   const response = await fetch(`${feature_flag_api}/${props.id}`, {
     method: "PATCH",
-    headers: props.headers,
+    headers: getAuthHeader(),
 
     body: JSON.stringify({ ...body_to_update }),
   });
@@ -43,12 +55,22 @@ export async function updateFeatureFlag(props: updateFeatureFlagRequestParams): 
   return resp;
 }
 
-function getCookiesInstance() {
+export function getCookiesInstance() {
   return cookies();
 }
 
-function getToken() {
+export function getToken() {
   return getCookiesInstance().get("token")?.value;
+}
+
+export function getAuthHeader() {
+  const token = getToken();
+
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  return headers;
 }
 
 export async function postFeatureFlag({ body }: createFeatureFlagRequestParams): Promise<ProxyRequestResponse> {
@@ -58,22 +80,13 @@ export async function postFeatureFlag({ body }: createFeatureFlagRequestParams):
 
   const response = await fetch(`${feature_flag_api}`, {
     method: "POST",
-    headers: { Authorization: `Bearer ${token}` },
+    headers: getAuthHeader(),
     body: JSON.stringify({ ...post_body }),
   });
 
   const resp = await generate_proxy_response(response);
 
   return resp;
-
-  // if (response.status !== 201) {
-  //   return { status:r, json: resp };
-  // } else {
-  //   return {
-  //     status: true,
-  //     json: resp,
-  //   };
-  // }
 }
 
 export type ProxyRequestResponse = {

@@ -20,7 +20,7 @@ export default function SingleFlagPage({ params }: { params: { id: string } }) {
       fetch(`/api/flags/${id}`)
         .then((res) => {
           res.json().then((res) => {
-            setForm(res);
+            setForm(res.json);
           });
         })
         .catch((error) => {});

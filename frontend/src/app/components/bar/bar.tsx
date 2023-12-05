@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { FaUserCircle } from "react-icons/fa";
+import { FaSearchPlus, FaUserCircle } from "react-icons/fa";
 import { RxSketchLogo, RxDashboard, RxPerson } from "react-icons/rx";
 import { FaReact } from "react-icons/fa";
 import MenuLink from "../menu-link/menuLink";
@@ -32,6 +32,8 @@ export default function bar({ children }: BarProps) {
         <MenuLink children={<IoAddCircleOutline size={25} />} href={"/dashboard/flags/add"} className={"text-black bg-gray-100 hover:bg-gray-300 cursor-pointer my-4 p-3 rounded-lg inline-block"} />
 
         <MenuLink children={<FaSearch size={25} />} href={"/dashboard/flags/search"} className={"text-black bg-gray-100 hover:bg-gray-300 cursor-pointer my-4 p-3 rounded-lg inline-block"} />
+
+        <MenuLink children={<FaSearchPlus size={25} />} href={"/dashboard/flags/state-search"} className={"text-black bg-gray-100 hover:bg-gray-300 cursor-pointer my-4 p-3 rounded-lg inline-block"} />
       </div>
 
       <LogoutComponent />

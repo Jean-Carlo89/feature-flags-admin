@@ -39,7 +39,7 @@ export const POST = async (req: Request, res: Response) => {
 export function generate_next_api_standard_response(res: ProxyRequestResponse) {
   const { status, json } = res;
 
-  return NextResponse.json({ status, json: json ? json : { message: null } });
+  return NextResponse.json({ status, json: json ? { ...json } : { message: null } });
 }
 
 interface QueryParameters {

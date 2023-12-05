@@ -32,7 +32,7 @@ const SearchBar = () => {
   //function onKeyEnter(e: KeyboardEvent<HTMLInputElement>) {}
 
   return (
-    <div className="flex items-center g-[10px] bg-[#2e374a] p-[10px] rounded-[10px] max-w- max border-5 border-red-500">
+    <div className="flex items-center g-[10px] bg-[#2e374a] p-[10px] rounded-[10px] max-w- max ">
       <MdSearch />
       <input type="text" placeholder="escreva aqui..." className="bg-transparent border-none" onChange={handleSearch} />
     </div>

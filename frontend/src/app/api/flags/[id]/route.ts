@@ -1,6 +1,7 @@
 import { deleteFeatureFlag, getFeatureFlag, updateFeatureFlag } from "@/app/services/feature-flags/FetureFlagApi";
 import { NextResponse } from "next/server";
 import { generate_next_api_standard_response } from "../route";
+import { redirect } from "next/dist/server/api-utils";
 
 export const PATCH = async (req: Request, res: Response) => {
   const body = { ...req.body };
@@ -18,7 +19,9 @@ export const GET = async (req: Request, res: Response) => {
 
   const flag = await getFeatureFlag({ id });
 
-  return NextResponse.json(flag);
+  // return NextResponse.json(flag);
+
+  return generate_next_api_standard_response(flag);
 };
 
 export const DELETE = async (req: Request, res: Response) => {
@@ -26,5 +29,5 @@ export const DELETE = async (req: Request, res: Response) => {
 
   const flag = await deleteFeatureFlag({ id });
 
-  return;
+  return generate_next_api_standard_response(flag);
 };
