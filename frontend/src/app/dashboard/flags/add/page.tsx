@@ -21,6 +21,7 @@ export default function AddFeatureFlag() {
         is_active: verifyEstate(),
       });
 
+      //return;
       const response = await fetch(`${NEXT_FEATURE_FLAG_URL}`, {
         method: "POST",
         body: body,
@@ -59,7 +60,7 @@ export default function AddFeatureFlag() {
       }
 
       if (typeof form.is_active === "string") {
-        result = form.is_active = "true" ? true : false;
+        result = form.is_active === "true" ? true : false;
       }
     } catch (error) {
     } finally {
@@ -87,6 +88,7 @@ export default function AddFeatureFlag() {
           <label className="text-[18px] mx-[10px]">Descrição</label>
           <input disabled={loading} type="text" onChange={onChange} className={form__input_css} name="descrição" id="description" value={form.description}></input>
           <label className="text-[18px] mx-[10px]">Estado</label>
+
           <select disabled={loading} className={form__input_css} onChange={onChange} name="estado" id="is_active" value={typeof form.is_active === "boolean" ? form.is_active : typeof form.is_active === "string" ? (form.is_active === "true" ? true : false) : null}>
             <option value={true}>Ativa</option>
             <option value={false}>Inativa</option>

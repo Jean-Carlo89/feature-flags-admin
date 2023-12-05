@@ -27,10 +27,6 @@ export const useScroll = (last_index: number, flags?: Dispatch<SetStateAction<Fe
               return router.push("/login");
             }
 
-            console.log(res);
-
-            console.log({ res2: res.json });
-
             setNewFlags((prevFlags) => {
               return [...prevFlags, ...res.json];
             });
