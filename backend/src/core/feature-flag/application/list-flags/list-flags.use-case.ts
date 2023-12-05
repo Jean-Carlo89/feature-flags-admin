@@ -28,17 +28,14 @@ export class ListFeatureFlagsUseCase
       delete input?.per_page;
     }
 
-    if (!input.index) {
+    if (!input?.index) {
       delete input?.index;
     }
 
-   
     const result = await this.FeatureFlagRepository.findAll(
       input?.per_page,
       input?.index,
     );
-
- 
 
     return result;
   }

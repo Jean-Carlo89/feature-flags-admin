@@ -43,7 +43,7 @@ app.get('/', function (req, res) {
 //verify_header_token_middleware,
 app.use(
   '/api/feature-flags',
-
+  verify_header_token_middleware,
   feature_flags_router,
 );
 

@@ -29,7 +29,7 @@ describe('GetUserUseCase Unit tests', () => {
     const fake_props: UserProps = {
       id: 'texto',
       email: 'email',
-
+      name: 'ggg',
       password: 'desc',
     };
 
@@ -46,7 +46,7 @@ describe('GetUserUseCase Unit tests', () => {
     expect(result).toStrictEqual({
       id: fake_props.id,
       email: fake_props.email,
-
+      name: fake_props.name,
       created_at: repository.items[0].created_at,
       updated_at: repository.items[0].updated_at,
     });

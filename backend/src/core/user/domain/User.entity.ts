@@ -54,7 +54,7 @@ export class User extends BaseEntity {
       id: this.id,
       email: this.email,
       password: this.password,
-
+      name: this.name,
       created_at: this.created_at,
       updated_at: this.updated_at,
     };
