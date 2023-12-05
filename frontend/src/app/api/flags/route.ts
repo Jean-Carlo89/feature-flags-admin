@@ -1,4 +1,4 @@
-import { getFeatureFlags, postFeatureFlag, updateFeatureFlag } from "@/app/services/feature-flags/FetureFlagApi";
+import { ProxyRequestResponse, getFeatureFlags, postFeatureFlag, updateFeatureFlag } from "@/app/services/feature-flags/FetureFlagApi";
 
 import { NextResponse } from "next/server";
 import { FaCloudSunRain } from "react-icons/fa";
@@ -31,8 +31,16 @@ export const POST = async (req: Request, res: Response) => {
 
   const json_body = await req.json();
 
-  await postFeatureFlag({ body: { ...json_body } });
+  const response = await postFeatureFlag({ body: { ...json_body } });
+
+  return generate_next_api_standard_response(response);
 };
+
+export function generate_next_api_standard_response(res: ProxyRequestResponse) {
+  const { status, json } = res;
+
+  return NextResponse.json({ status, json: json ? json : { message: null } });
+}
 
 interface QueryParameters {
   [key: string]: string;

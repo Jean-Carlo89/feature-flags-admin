@@ -1,6 +1,8 @@
 import { FeatureFlag } from "@/app/dashboard/flags/flag";
 import { current_api } from "../api/helper";
 import axios, { AxiosHeaders } from "axios";
+import { cookies } from "next/headers";
+import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 
 const feature_flag_api = `${current_api}/feature-flags`;
 
@@ -26,26 +28,72 @@ export async function deleteFeatureFlag(props: getFeatureFlagRequestParams): Pro
   return await (await fetch(`${feature_flag_api}/${props.id}`, { method: "DELETE", headers: props.headers })).json();
 }
 
-export async function updateFeatureFlag(props: updateFeatureFlagRequestParams): Promise<void> {
+export async function updateFeatureFlag(props: updateFeatureFlagRequestParams): Promise<ProxyRequestResponse> {
   const body_to_update = props;
 
-  await fetch(`${feature_flag_api}/${props.id}`, {
+  const response = await fetch(`${feature_flag_api}/${props.id}`, {
     method: "PATCH",
     headers: props.headers,
 
     body: JSON.stringify({ ...body_to_update }),
   });
+
+  const resp = await generate_proxy_response(response);
+
+  return resp;
 }
 
-export async function postFeatureFlag(props: createFeatureFlagRequestParams): Promise<void> {
-  const post_body = props.body;
+function getCookiesInstance() {
+  return cookies();
+}
 
-  await fetch(`${feature_flag_api}`, {
+function getToken() {
+  return getCookiesInstance().get("token")?.value;
+}
+
+export async function postFeatureFlag({ body }: createFeatureFlagRequestParams): Promise<ProxyRequestResponse> {
+  const token = getToken();
+
+  const post_body = { ...body };
+
+  const response = await fetch(`${feature_flag_api}`, {
     method: "POST",
-    headers: props.headers,
-
+    headers: { Authorization: `Bearer ${token}` },
     body: JSON.stringify({ ...post_body }),
   });
+
+  const resp = await generate_proxy_response(response);
+
+  return resp;
+
+  // if (response.status !== 201) {
+  //   return { status:r, json: resp };
+  // } else {
+  //   return {
+  //     status: true,
+  //     json: resp,
+  //   };
+  // }
+}
+
+export type ProxyRequestResponse = {
+  status: number;
+  json: any;
+};
+
+async function generate_proxy_response(res: Response) {
+  let { status, json } = res;
+  let json_parse_error = false;
+
+  try {
+    json = await res.json();
+  } catch (error) {
+    console.log("Houve um erro ao lidar com o json da api externa");
+
+    json_parse_error;
+  }
+
+  return { status, json };
 }
 export type listFeatureFlagsRequestParams = {
   query?: string;
@@ -67,7 +115,7 @@ export type getFeatureFlagRequestParams = {
 };
 export type createFeatureFlagRequestParams = {
   body: Partial<FeatureFlag>;
-  headers?: Partial<AxiosHeaders>;
+  //headers?: Partial<AxiosHeaders>;
 };
 export type updateFeatureFlagRequestParams = {
   id: string;

@@ -9,6 +9,8 @@ import MenuLink from "../menu-link/menuLink";
 import { IoAddCircleOutline } from "react-icons/io5";
 
 import { FaSearch } from "react-icons/fa";
+import { redirect } from "next/navigation";
+import LogoutComponent from "./logout";
 type BarProps = {
   children: React.ReactNode;
 };
@@ -32,9 +34,10 @@ export default function bar({ children }: BarProps) {
         <MenuLink children={<FaSearch size={25} />} href={"/dashboard/flags/search"} className={"text-black bg-gray-100 hover:bg-gray-300 cursor-pointer my-4 p-3 rounded-lg inline-block"} />
       </div>
 
-      <div className=" ml-[15px] mb-[5px] rounded-full z-20 bg-slate-500 w-[50px] h-[50px] bg-rounded">
+      <LogoutComponent />
+      {/* <div onClick={logout} className=" ml-[15px] mb-[5px] rounded-full cursor-pointer  bg-slate-500 w-[50px] h-[50px] bg-rounded z-20">
         <FaUserCircle size={50} />
-      </div>
+      </div> */}
     </div>
   );
 }

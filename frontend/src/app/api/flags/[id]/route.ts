@@ -1,5 +1,6 @@
 import { deleteFeatureFlag, getFeatureFlag, updateFeatureFlag } from "@/app/services/feature-flags/FetureFlagApi";
 import { NextResponse } from "next/server";
+import { generate_next_api_standard_response } from "../route";
 
 export const PATCH = async (req: Request, res: Response) => {
   const body = { ...req.body };
@@ -7,9 +8,9 @@ export const PATCH = async (req: Request, res: Response) => {
   const id = req.url.split("flags/")[1];
   const proxy_body = await req.json();
 
-  await updateFeatureFlag({ ...proxy_body, id });
+  const resp = await updateFeatureFlag({ ...proxy_body, id });
 
-  return;
+  return generate_next_api_standard_response(resp);
 };
 
 export const GET = async (req: Request, res: Response) => {

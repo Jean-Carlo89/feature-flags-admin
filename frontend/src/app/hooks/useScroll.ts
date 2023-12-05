@@ -18,27 +18,6 @@ export const useScroll = (last_index: number, flags?: Dispatch<SetStateAction<Fe
           const length = res.length;
 
           setNewFlags((prevFlags) => {
-            // console.log({ prevFlags });
-
-            // console.log({ res });
-
-            // console.log({ result_state: [...prevFlags, ...res] });
-
-            const prev = [...prevFlags];
-
-            // const areIdentical = prev.every((element, index) => {
-            //   console.log({ element });
-
-            //   console.log({ resp: res[index] });
-            //   element.id === res[index].id;
-            // });
-
-            // if (areIdentical) {
-            //   console.log("here");
-            //   // The arrays have the same elements in the same order.
-            //   return [...prev];
-            // }
-
             return [...prevFlags, ...res];
           });
 

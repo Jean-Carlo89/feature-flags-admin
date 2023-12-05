@@ -8,7 +8,7 @@ export default function AddFeatureFlag() {
   const [form, setForm] = useState({ name: "", description: "", is_active: false, created_at: null, updated_at: null });
   const form__input_css = "text-black rounded-lg border-2  p-[20px] mx-[10px]";
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
 
@@ -19,16 +19,22 @@ export default function AddFeatureFlag() {
         is_active: verifyEstate(),
       });
 
-      fetch(`${NEXT_FEATURE_FLAG_URL}`, {
+      const response = await fetch(`${NEXT_FEATURE_FLAG_URL}`, {
         method: "POST",
         body: body,
-      }).then(() => {
-        setLoading(false);
-
-        alert("Flag criada com sucesso");
       });
+
+      const json = await response.json();
+
+      if (json.status === 201) {
+        alert("Flag criada com sucesso");
+      } else {
+        alert("Não foi possível cadastrar a flag");
+      }
     } catch (error) {
-      alert("Não foi possível cadastrar a flag");
+      console.error(error);
+      console.log(error);
+      alert(" Houve um erro ao fazer o cadastro");
     } finally {
       setLoading(false);
     }

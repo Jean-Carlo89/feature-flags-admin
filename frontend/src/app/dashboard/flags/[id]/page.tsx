@@ -59,7 +59,7 @@ export default function SingleFlagPage({ params }: { params: { id: string } }) {
     }
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const { id } = params;
 
@@ -70,10 +70,18 @@ export default function SingleFlagPage({ params }: { params: { id: string } }) {
         is_active: verifyEstate(),
       });
 
-      fetch(`${NEXT_FEATURE_FLAG_URL}/${id}`, {
+      const response = await fetch(`${NEXT_FEATURE_FLAG_URL}/${id}`, {
         method: "PATCH",
         body: body,
       });
+
+      const json = await response.json();
+
+      if (json.status === 200) {
+        alert("Flag atualizada com sucesso");
+      } else {
+        alert("Não foi possível atualizar  a flag");
+      }
     } catch (error) {
       alert("Não foi possível atualizar a flag");
     }
@@ -81,18 +89,11 @@ export default function SingleFlagPage({ params }: { params: { id: string } }) {
 
   function deleteFlag() {
     const { id } = params;
-    // try {
-    //alert("clicked");
-
-    //redirect("/login");
 
     const uri = NEXT_FEATURE_FLAG_URL;
     fetch(`${uri}/${id}`, { method: "DELETE" }).then(() => {
       router.push("/dashboard/flags");
     });
-    // } catch (e) {
-    //   alert("Error deleting");
-    // }
   }
 
   const form__input_css = "text-black rounded-lg border-2  p-[20px] mx-[10px]";

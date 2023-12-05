@@ -6,11 +6,14 @@ import { flag_mocks } from "@/app/mocks/flags-mocks";
 import { current_api } from "@/app/services/api/helper";
 import React, { useState } from "react";
 import { FeatureFlag } from "../flag";
+import { cookies } from "next/headers";
 
 export default async function SearchFlagPage({ searchParams }) {
   const query = searchParams?.q | "";
 
   let flags: FeatureFlag[] = [];
+  // const cookieStore = cookies();
+  // const theme = cookieStore.get("token");
 
   if (searchParams?.q) {
     const response = await fetch(`${current_api}/feature-flags/state?q=${searchParams.q}`, {});

@@ -2,13 +2,10 @@
 
 import { createContext, useContext, Dispatch, SetStateAction, useState } from "react";
 
-type DataType = {
-  firstName: string;
-};
-
 export type user = {
   id: string;
   name: string;
+  token: string;
 };
 interface ContextProps {
   user: user;
@@ -21,9 +18,10 @@ const GlobalContext = createContext<ContextProps>({
   user: {
     id: "",
     name: "",
+    token: "",
   },
   setUser: (): user => {
-    return { id: "", name: "" };
+    return { id: "", name: "", token: "" };
     // data: [],
     //setData: (): DataType[] => [],
   },
@@ -33,8 +31,8 @@ export const GlobalContextProvider = ({ children }) => {
   const [user, setUser] = useState<user>({
     id: "",
     name: "",
+    token: "",
   });
-  const [data, setData] = useState<[] | DataType[]>([]);
 
   return <GlobalContext.Provider value={{ user, setUser }}>{children}</GlobalContext.Provider>;
 };
