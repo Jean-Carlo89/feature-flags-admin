@@ -2,7 +2,6 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { NEXT_FEATURE_FLAG_URL } from "../api/flags/helper";
 import { FeatureFlag } from "../dashboard/flags/flag";
 import { useRouter } from "next/navigation";
-import jsonwebtoken from "jsonwebtoken";
 
 export const useScroll = (last_index: number, flags?: Dispatch<SetStateAction<FeatureFlag[]>>) => {
   const [loading, SetLoading] = useState(false);
