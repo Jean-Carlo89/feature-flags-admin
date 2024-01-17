@@ -6,7 +6,7 @@
 
 *** No Front há um arquivo  ./src/app/services/api/helper.ts  onde esta configurado onde o front está apontando para o back.  A depender da ambiente(local ou docker), será preciso inverter esse dado.
 
-*** A rota POST  http://localhost:8002/api/feature-flags/many  insere um dados aleatorios de features flags no banco.
+*** A rota POST  http://localhost:8002/api/feature-flags/many  insere dados aleatorios de features flags no banco.
 
 
 ## 1 . Por Docker 
